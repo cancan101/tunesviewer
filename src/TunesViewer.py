@@ -18,7 +18,6 @@ under the License.
 """
 
 # Import standard Python modules
-import cookielib
 import gzip
 import logging
 import os
@@ -37,6 +36,7 @@ import gobject
 import gtk
 import pango
 import pygtk
+from TunesViewerBase import TunesViewerBase
 
 gobject.threads_init()
 
@@ -54,7 +54,7 @@ from SingleWindowSocket import SingleWindowSocket
 from common import *
 from constants import TV_VERSION, SEARCH_U, SEARCH_P, USER_AGENT, HELP_URL, BUG_URL
 
-class TunesViewer:
+class TunesViewer(TunesViewerBase):
 	source = ""  # full html/xml source
 	url = ""  # page url
 	podcast = ""  # podcast url
@@ -700,13 +700,8 @@ class TunesViewer:
 		self.noneSelected()
 
 		self.config = ConfigBox(self) # Only one configuration box, it has reference back to here to change toolbar,statusbar settings.
-
-		# Set up the main url handler with downloading and cookies:
-		self.cj = cookielib.CookieJar()
-		self.opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(self.cj))
-		self.opener.addheaders = [('User-agent', self.descView.ua),
-					  ('Accept-Encoding', 'gzip'),
-					  ('Accept-Language', 'en-US')]
+		
+		super(TunesViewer, self).__init__(self.descView.ua)
 
 	def webkitZI(self, obj):
 		self.descView.zoom_in()
@@ -1342,24 +1337,13 @@ class TunesViewer:
 			self.downloading = False
 			self.tbStop.set_sensitive(False)
 			return
-
-		#Apparently the x-apple-tz header is UTC offset *60 *60.
-		self.tz = str(-time.altzone)
-		self.opener.addheaders = [('User-agent', self.descView.ua),
-					  ('Accept-Encoding', 'gzip'),
-					  ('X-Apple-Tz', self.tz)]
+		
 		htmMode = self.htmlmode.get_active() #the checkbox
-		if htmMode:
-			self.opener.addheaders = [('User-agent', self.descView.ua),
-						  ('Accept-Encoding', 'gzip'),
-						  ("X-Apple-Tz:", self.tz),
-						  ("X-Apple-Store-Front", "143441-1,12")]
-		if self.mobilemode.get_active():
-			# As described on
-			# http://blogs.oreilly.com/iphone/2008/03/tmi-apples-appstore-protocol-g.html
-			self.opener.addheaders = [('User-agent', 'iTunes-iPhone/1.2.0'),
-						  ('Accept-Encoding', 'gzip'),
-						  ('X-Apple-Store-Front:', '143441-1,2')]
+		mobileMode = self.mobilemode.get_active()
+		
+		self.setHeaders(htmMode, mobileMode)
+
+
 		#Show that it's loading:
 		self.setLoadDisplay(True)
 
