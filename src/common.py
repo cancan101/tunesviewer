@@ -7,7 +7,6 @@ import re
 import urllib2
 
 import glib
-import gtk
 
 SUFFIXES = ['', 'K', 'M', 'G', 'T', 'P']
 
@@ -88,13 +87,6 @@ def safeFilename(name, dos):
 	return name
 
 
-def openDefault(filename):
-	"""
-	Opens file/url in the system default opener.
-	"""
-	start("xdg-open", filename)
-
-
 def markup(text, isheading):
 	"""
 	Gives markup for name - for liststore.
@@ -130,25 +122,6 @@ def desc(length):
 	else:
 		return "(way too big)"
 
-
-def start(program, arg):
-	"""
-	Runs a program in the background.
-	"""
-	import subprocess
-	try:
-		logging.debug(program + str(arg))
-		# program may be something like program -a -b, so split spaces to args:
-		subprocess.Popen(program.split(" ") + [arg])
-		logging.debug("Execution of %s completed." % program)
-	except Exception as e:
-		logging.info(str(e))
-		msg = gtk.MessageDialog(None, gtk.DIALOG_MODAL,
-					gtk.MESSAGE_ERROR,
-					gtk.BUTTONS_CLOSE,
-					"Error starting %s\n%s" % (program, e))
-		msg.run()
-		msg.destroy()
 
 
 def super_unquote(s):

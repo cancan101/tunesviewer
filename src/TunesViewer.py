@@ -53,6 +53,7 @@ from Parser import Parser
 from SingleWindowSocket import SingleWindowSocket
 from common import *
 from constants import TV_VERSION, SEARCH_U, SEARCH_P, USER_AGENT, HELP_URL, BUG_URL
+from common_ui import *
 
 class TunesViewer(TunesViewerBase):
 	source = ""  # full html/xml source

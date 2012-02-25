@@ -11,6 +11,7 @@ import gtk
 import pango
 
 from common import *
+from common_ui import *
 
 gobject.threads_init()
 
