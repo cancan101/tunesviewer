@@ -591,6 +591,9 @@ class ParserBase(object):
 			if i.text == "items":
 				array = i.getnext()
 		return array
+	
+	def addItemHelper(self, mediaItem):
+		self.mediaItems.append(mediaItem)
 
 	def addItem(self, title, author, duration, type, comment, releasedate,
 			datemodified, gotourl, previewurl, price, itemid):

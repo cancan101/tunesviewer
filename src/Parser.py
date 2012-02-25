@@ -5,7 +5,7 @@ class Parser(ParserBase.ParserBase):
     def addItem(self, title, author, duration, type, comment, releasedate,
             datemodified, gotourl, previewurl, price, itemid):
         """Adds item to media list."""
-        self.mediaItems.append([None,
+        self.addItemHelper([None,
                     markup(title, False),
                     author,
                     duration,
