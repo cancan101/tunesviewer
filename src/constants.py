@@ -6,6 +6,7 @@ all over the program.
 import os.path
 
 import glib
+from constant_constants import *
 
 # Path of the program (bad assumption)
 TV_PATH = "/usr/bin/tunesviewer"
@@ -25,17 +26,8 @@ DATA_SOCKET = os.path.join(DATA_DIR, "tunesviewerLOCK") # Holds socket, so secon
 # Directory under which we write downloaded files
 DOWNLOADS_DIR = os.path.expanduser("~")
 
-# User agent and connection programs
-USER_AGENT = 'iTunes/10.5.3'
+# connection programs
 DEFAULT_OPENER = "vlc --http-user-agent=%s --http-caching=10000" % (USER_AGENT, )
-
-# URLs
-HOME_URL = "http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewGrouping?id=27753"
-
-SEARCH_U = "http://ax.search.itunes.apple.com/WebObjects/MZSearch.woa/wa/search?submit=media&restrict=true&term=%s&media=cobalt"
-SEARCH_P = "http://ax.search.itunes.apple.com/WebObjects/MZSearch.woa/wa/search?submit=media&term=%s&media=podcast"
-SEARCH_URL1 = "http://phobos.apple.com/WebObjects/MZSearch.woa/wa/advancedSearch?media=iTunesU&searchButton=submit&allTitle=%s&descriptionTerm=%s&institutionTerm=%s"
-SEARCH_URL2 = "http://ax.search.itunes.apple.com/WebObjects/MZSearch.woa/wa/advancedSearch?media=podcast&titleTerm=%s&authorTerm=%s&descriptionTerm=%s&genreIndex=&languageTerm="
 
 #Project Urls
 HELP_URL = "http://sourceforge.net/apps/trac/tunesviewer/wiki/help"
