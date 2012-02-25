@@ -5,6 +5,7 @@ Created on Feb 25, 2012
 '''
 import gtk
 import logging
+import glib
 
 def start(program, arg):
     """
@@ -30,3 +31,13 @@ def openDefault(filename):
     Opens file/url in the system default opener.
     """
     start("xdg-open", filename)
+    
+
+def markup(text, isheading):
+    """
+    Gives markup for name - for liststore.
+    """
+    if isheading:
+        return "<u><i>%s</i></u>" % (glib.markup_escape_text(text))
+    else:
+        return glib.markup_escape_text(text)

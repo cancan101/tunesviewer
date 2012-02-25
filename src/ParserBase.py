@@ -6,7 +6,7 @@ import time
 from lxml import etree
 import lxml.html
 
-from common import time_convert, type_of, HTmarkup, markup
+from common import time_convert, type_of, HTmarkup
 
 
 def safe(obj):
@@ -593,20 +593,9 @@ class ParserBase(object):
 		return array
 
 	def addItem(self, title, author, duration, type, comment, releasedate,
-		    datemodified, gotourl, previewurl, price, itemid):
+			datemodified, gotourl, previewurl, price, itemid):
 		"""Adds item to media list."""
-		self.mediaItems.append([None,
-					markup(title, False),
-					author,
-					duration,
-					type,
-					comment,
-					releasedate,
-					datemodified,
-					gotourl,
-					previewurl,
-					price,
-					itemid])
+		raise NotImplementedError("addItem")
 
 	def textContent(self, element):
 		"""Gets all text content of the node."""

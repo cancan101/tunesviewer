@@ -6,8 +6,6 @@ import os.path
 import re
 import urllib2
 
-import glib
-
 SUFFIXES = ['', 'K', 'M', 'G', 'T', 'P']
 
 
@@ -85,16 +83,6 @@ def safeFilename(name, dos):
 	elif len(name) == 0:
 		name = "(unknown)"
 	return name
-
-
-def markup(text, isheading):
-	"""
-	Gives markup for name - for liststore.
-	"""
-	if isheading:
-		return "<u><i>%s</i></u>" % (glib.markup_escape_text(text))
-	else:
-		return glib.markup_escape_text(text)
 
 
 def HTmarkup(text, isheading):
