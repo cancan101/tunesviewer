@@ -6,7 +6,7 @@ import time
 from lxml import etree
 import lxml.html
 
-from common import *
+from common import time_convert, type_of, HTmarkup, markup
 
 
 def safe(obj):
@@ -525,18 +525,7 @@ class Parser:
 				if element.get("preview-duration"):
 					duration = time_convert(element.get("preview-duration"))
 				logging.debug("preview-url adding row")
-				self.mediaItems.append([None,
-							markup(title, False),
-							author,
-							duration,
-							type_of(url),
-							"",
-							"",
-							"",
-							"",
-							url,
-							"",
-							""])
+				self.addItem(title, author, duration, type_of(url), "", "", "", "", url, "", "")
 			elif (element.tag == "button" and
 			      element.get("anonymous-download-url") and
 			      element.get("kind") and
