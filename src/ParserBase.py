@@ -5,7 +5,7 @@ import time
 
 try:
 	from lxml.etree import fromstring
-except:
+except ImportError:
 	from xml.etree.ElementTree import fromstring
 
 import lxml.html
@@ -48,8 +48,8 @@ class ParserBase(object):
 			# http://stackoverflow.com/questions/1016910/how-can-i-strip-invalid-xml-characters-from-strings-in-perl
 			bad = "[^\x09\x0A\x0D\x20-\xD7FF\xE000-\xFFFD]"
 			self.source = re.sub(bad, " ", self.source) # now it should be valid xml.
-			source_cleaned = self.source.replace('xmlns="http://www.apple.com/itms/"', '')
-			dom = fromstring(source_cleaned) #(this xmlns causes problems with xpath)
+			source_cleaned = self.source.replace('xmlns="http://www.apple.com/itms/"', '') #(this xmlns causes problems with xpath)
+			dom = fromstring(source_cleaned)
 			if dom.tag.find("html") > -1 or dom.tag == "{http://www.w3.org/2005/Atom}feed":
 				# Don't want normal pages/atom pages, those are for the web browser!
 				raise Exception

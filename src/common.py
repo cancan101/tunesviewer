@@ -26,7 +26,7 @@ def time_convert(ms):
 			return ms
 		else:
 			seconds = int(m.group(1)) / 1000
-	except TypeError as e:
+	except TypeError, e:
 		logging.debug("Couldn't format %s as time." % str(e))
 		return ms
 
