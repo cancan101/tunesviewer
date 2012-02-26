@@ -3,8 +3,13 @@ import logging
 import re
 import time
 
-from lxml import etree
+try:
+	from lxml.etree import fromstring
+except:
+	from xml.etree.ElementTree import fromstring
+
 import lxml.html
+
 
 from common import time_convert, type_of, HTmarkup
 
@@ -43,7 +48,8 @@ class ParserBase(object):
 			# http://stackoverflow.com/questions/1016910/how-can-i-strip-invalid-xml-characters-from-strings-in-perl
 			bad = "[^\x09\x0A\x0D\x20-\xD7FF\xE000-\xFFFD]"
 			self.source = re.sub(bad, " ", self.source) # now it should be valid xml.
-			dom = etree.fromstring(self.source.replace('xmlns="http://www.apple.com/itms/"', '')) #(this xmlns causes problems with xpath)
+			source_cleaned = self.source.replace('xmlns="http://www.apple.com/itms/"', '')
+			dom = fromstring(source_cleaned) #(this xmlns causes problems with xpath)
 			if dom.tag.find("html") > -1 or dom.tag == "{http://www.w3.org/2005/Atom}feed":
 				# Don't want normal pages/atom pages, those are for the web browser!
 				raise Exception
@@ -87,7 +93,7 @@ class ParserBase(object):
 						     "")
 			else:
 				self.seeXMLElement(dom)
-		except Exception as e:
+		except Exception, e:
 			logging.debug("ERR: " + str(e))
 			logging.debug("Parsing as HTML, not as XML.")
 			ustart = self.source.find("<body onload=\"return open('")
@@ -96,7 +102,8 @@ class ParserBase(object):
 				self.Redirect = newU
 			logging.debug("Parsing HTML")
 			self.HTML = self.source
-			dom = lxml.html.document_fromstring(self.source.replace('<html xmlns="http://www.apple.com/itms/"', '<html'))
+			source_cleaned = self.source.replace('<html xmlns="http://www.apple.com/itms/"', '<html')
+			dom = lxml.html.document_fromstring(source_cleaned)
 			self.seeHTMLElement(dom)
 
 		items = []
@@ -248,7 +255,7 @@ class ParserBase(object):
 						self.HTML += "<b>%s:</b> %s\n<br>" % (thisname, i.text)
 				try:
 					self.Title = (dom.xpath("/rss/channel/title")[0].text)
-				except IndexError as e:
+				except IndexError, e:
 					logging.warn('Error using index ' + str(e))
 		else:
 			out = " > ".join(location) + "\n"
@@ -260,7 +267,7 @@ class ParserBase(object):
 			if dom.tag == "html":
 				try:
 					self.Title = dom.xpath("/html/head/title")[0].text_content()
-				except IndexError as e:
+				except IndexError, e:
 					logging.warn('Error extracting title: ' + str(e))
 					self.Title = "TunesViewer"
 		self.HTML = "<html><body bgcolor=\"" + self.bgcolor + "\">" + self.HTML + "</body></html>"
