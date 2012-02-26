@@ -29,6 +29,3 @@ DOWNLOADS_DIR = os.path.expanduser("~")
 # connection programs
 DEFAULT_OPENER = "vlc --http-user-agent=%s --http-caching=10000" % (USER_AGENT, )
 
-#Project Urls
-HELP_URL = "http://sourceforge.net/apps/trac/tunesviewer/wiki/help"
-BUG_URL = "http://sourceforge.net/tracker/?func=add&group_id=305696&atid=1288143"
