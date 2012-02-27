@@ -266,7 +266,13 @@ class ParserBase(object):
 			out = out[:-6]
 			if dom.tag == "html":
 				try:
-					self.Title = dom.xpath("/html/head/title")[0].text_content()
+					title_element = dom.xpath("/html/head/title")[0]
+					try:
+						self.Title = title_element.text_content()
+					except Exception, e:
+						### For some reason text_content sometimes throws Exception
+						logging.warn('Error extracting title: ' + str(e))
+						self.Title = "TunesViewer"						
 				except IndexError, e:
 					logging.warn('Error extracting title: ' + str(e))
 					self.Title = "TunesViewer"
