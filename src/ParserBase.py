@@ -7,6 +7,12 @@ try:
 	from lxml.etree import fromstring
 except ImportError:
 	from xml.etree.ElementTree import fromstring
+	
+	
+try:
+	import json
+except ImportError:
+	import simplejson as json
 
 import lxml.html
 
@@ -485,7 +491,6 @@ class ParserBase(object):
 			     element.get("comparison").find("less") > -1)):
 				return #Ignore child nodes.
 			if element.tag == "tr" and element.get("dnd-clipboard-data"):
-				import json
 				data = json.loads(element.get("dnd-clipboard-data"))
 				itemid = ""
 				title = ""
